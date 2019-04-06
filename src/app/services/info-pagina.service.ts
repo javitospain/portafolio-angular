@@ -9,7 +9,7 @@ import { InfoEquipo } from '../interfaces/info-equipo.interface';
 export class InfoPaginaService {
 
   info: InfoPagina = {};
-  equipo: InfoEquipo = {};
+  equipo: InfoEquipo[] = [];
   cargada = false;
 
   constructor(private http: HttpClient) {
@@ -17,34 +17,27 @@ export class InfoPaginaService {
     //console.log('Funciona');
     this.cargarInfo();
     this.cargarEquipo();
-   }
+  }
 
-   private cargarInfo(){
-     //https://angular-html-98995.firebaseio.com/equipo.json
+  private cargarInfo(){
 
-         // Leer fichero JSON
     this.http.get('assets/data/data-pagina.json')
     .subscribe ( (resp: InfoPagina) => {
 
       this.cargada = true;
       this.info = resp;
-      //console.log(resp.email);
+      //console.log(resp);
       //console.log( resp['web'] );
       //console.log( resp['twitter'] );
-    })
+    });
   }
 
-    private cargarEquipo(){
+  private cargarEquipo(){
 
-      this.http.get('https://angular-html-98995.firebaseio.com/equipo.json')
-      .subscribe ( (resp: InfoEquipo) => {
-  
-        this.cargada = true;
-        this.equipo = resp;
-        //console.log(resp);
-        //console.log( resp['web'] );
-        //console.log( resp['twitter'] );
-      })
-
-   }
+    this.http.get('https://angular-html-98995.firebaseio.com/equipo.json')
+    .subscribe ( (resp: any[] ) => {  
+      this.equipo = resp;
+    //  console.log(resp);
+    });
+  }
 }
